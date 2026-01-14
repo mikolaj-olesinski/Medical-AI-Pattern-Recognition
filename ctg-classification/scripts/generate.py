@@ -89,6 +89,22 @@ def main():
     print((class_counts / len(df) * 100).round(2).to_string())
     print(f"\nMissing values: {'none' if missing.empty else missing.to_dict()}")
 
+    # ---- EDA figure ----------------------------------------------------
+    fig = plt.figure(figsize=(12, 8))
+
+    plt.subplot(2, 2, 1)
+    class_counts.plot(kind="bar", color="skyblue")
+    plt.title("Class distribution")
+    plt.xlabel("Class")
+    plt.ylabel("Number of recordings")
+    plt.xticks(rotation=0)
+
+    plt.subplot(2, 2, 2)
+    df["LB"].hist(bins=30, alpha=0.75, color="seagreen")
+    plt.title("Baseline FHR (LB) distribution")
+    plt.xlabel("beats per minute")
+    plt.ylabel("count")
+
 
 
 if __name__ == "__main__":
