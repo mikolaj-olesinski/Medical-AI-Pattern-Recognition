@@ -105,6 +105,18 @@ def main():
     plt.xlabel("beats per minute")
     plt.ylabel("count")
 
+    plt.subplot(2, 2, 3)
+    df[["AC", "FM", "UC", "DL"]].boxplot()
+    plt.title("Spread of key signal features")
+    plt.xticks(rotation=30)
+
+    plt.subplot(2, 2, 4)
+    corr_subset = df[["LB", "AC", "FM", "UC", "ASTV", "MSTV", "Width", TARGET]].corr()
+    sns.heatmap(corr_subset, annot=True, cmap="coolwarm", center=0, square=True,
+                fmt=".2f", cbar_kws={"shrink": 0.8})
+    plt.title("Correlation (selected features)")
+    savefig("eda_overview.png")
+
 
 
 if __name__ == "__main__":
