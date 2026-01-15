@@ -117,6 +117,31 @@ def main():
     plt.title("Correlation (selected features)")
     savefig("eda_overview.png")
 
+    # ---- Preprocessing comparison --------------------------------------
+    X = df[FEATURE_COLUMNS].dropna()
+    y = df.loc[X.index, TARGET].astype(int)
+    print(f"\nAfter dropping rows with missing values: {len(X)} samples "
+          f"({len(df) - len(X)} removed)")
+
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
+
+    scaler_std = StandardScaler()
+    X_std = pd.DataFrame(scaler_std.fit_transform(X), columns=X.columns, index=X.index)
+    X_norm = pd.DataFrame(MinMaxScaler().fit_transform(X), columns=X.columns, index=X.index)
+
+    pca = PCA(n_components=10, random_state=RANDOM_STATE)
+    X_pca = pd.DataFrame(pca.fit_transform(X_std), index=X.index)
+
+    selector = SelectKBest(f_classif, k=10)
+    X_sel = pd.DataFrame(selector.fit_transform(X, y),
+                          columns=X.columns[selector.get_support()], index=X.index)
+
+    data_versions = {
+        "original": X, "standardized": X_std, "normalized": X_norm,
+        "pca_10": X_pca, "selectk_10": X_sel,
+    }
+    print(f"PCA(10) explained variance: {pca.explained_variance_ratio_.sum():.3f}")
+
 
 
 if __name__ == "__main__":
