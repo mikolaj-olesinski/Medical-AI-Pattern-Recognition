@@ -142,6 +142,23 @@ def main():
     }
     print(f"PCA(10) explained variance: {pca.explained_variance_ratio_.sum():.3f}")
 
+    baseline = pd.Series(
+        {name: cross_val_score(GaussianNB(), Xv, y, cv=skf).mean()
+         for name, Xv in data_versions.items()},
+        name="cv_accuracy",
+    ).sort_values(ascending=False)
+    print("\nBaseline (Naive Bayes) accuracy per data representation:")
+    print(baseline.round(4).to_string())
+
+    plt.figure(figsize=(7, 4))
+    baseline.plot(kind="bar", color="#3498db", alpha=0.85)
+    plt.ylabel("CV accuracy (Naive Bayes)")
+    plt.title("Effect of preprocessing on a baseline classifier")
+    plt.xticks(rotation=30, ha="right")
+    for i, v in enumerate(baseline.values):
+        plt.text(i, v + 0.005, f"{v:.3f}", ha="center", fontsize=9)
+    savefig("preprocessing_comparison.png")
+
 
 
 if __name__ == "__main__":
