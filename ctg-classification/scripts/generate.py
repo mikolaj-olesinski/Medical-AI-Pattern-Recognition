@@ -159,6 +159,27 @@ def main():
         plt.text(i, v + 0.005, f"{v:.3f}", ha="center", fontsize=9)
     savefig("preprocessing_comparison.png")
 
+    # ---- Model comparison -----------------------------------------------
+    candidates = [
+        ("Naive Bayes", GaussianNB(), "original"),
+        ("Decision Tree (default)", DecisionTreeClassifier(random_state=RANDOM_STATE), "original"),
+        ("Decision Tree (tuned)",
+         DecisionTreeClassifier(max_depth=8, min_samples_split=5, random_state=RANDOM_STATE),
+         "original"),
+        ("Random Forest", RandomForestClassifier(n_estimators=200, random_state=RANDOM_STATE), "original"),
+        ("SVM (RBF)", SVC(kernel="rbf", random_state=RANDOM_STATE), "pca_10"),
+        ("Gradient Boosting", GradientBoostingClassifier(random_state=RANDOM_STATE), "original"),
+    ]
+
+    rows = []
+    for name, model, data_name in candidates:
+        Xv = data_versions[data_name]
+        cv_acc = cross_val_score(model, Xv, y, cv=skf, scoring="accuracy").mean()
+        rows.append({"model": name, "data": data_name, "cv_accuracy": cv_acc})
+    results = pd.DataFrame(rows).sort_values("cv_accuracy", ascending=False).reset_index(drop=True)
+    print("\nModel comparison (5-fold CV accuracy):")
+    print(results.round(4).to_string(index=False))
+
 
 
 if __name__ == "__main__":
