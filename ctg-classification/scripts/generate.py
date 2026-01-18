@@ -180,6 +180,15 @@ def main():
     print("\nModel comparison (5-fold CV accuracy):")
     print(results.round(4).to_string(index=False))
 
+    plt.figure(figsize=(8, 4.5))
+    plt.barh(results["model"], results["cv_accuracy"], color="#2ecc71", alpha=0.85)
+    plt.gca().invert_yaxis()
+    plt.xlabel("CV accuracy")
+    plt.title("Model comparison — CTG pattern classification")
+    for i, v in enumerate(results["cv_accuracy"]):
+        plt.text(v + 0.005, i, f"{v:.3f}", va="center", fontsize=9)
+    savefig("model_comparison.png")
+
 
 
 if __name__ == "__main__":
