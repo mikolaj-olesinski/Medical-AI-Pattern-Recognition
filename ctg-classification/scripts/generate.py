@@ -204,6 +204,18 @@ def main():
     print(f"Held-out test accuracy: {test_acc:.4f}")
     print(classification_report(y_test, y_pred))
 
+    labels = sorted(y.unique())
+    cm = confusion_matrix(y_test, y_pred, labels=labels)
+    plt.figure(figsize=(8, 6.5))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+                xticklabels=[f"class {c}" for c in labels],
+                yticklabels=[f"class {c}" for c in labels],
+                cbar_kws={"label": "count"})
+    plt.title(f"Confusion matrix — {best_name}\ntest accuracy: {test_acc:.3f}")
+    plt.xlabel("Predicted class")
+    plt.ylabel("True class")
+    savefig("confusion_matrix.png")
+
 
 
 if __name__ == "__main__":
