@@ -189,6 +189,21 @@ def main():
         plt.text(v + 0.005, i, f"{v:.3f}", va="center", fontsize=9)
     savefig("model_comparison.png")
 
+    # ---- Best model — detailed evaluation --------------------------------
+    best_name, best_data = results.iloc[0][["model", "data"]]
+    best_model = dict((n, m) for n, m, _ in candidates)[best_name]
+    Xb = data_versions[best_data]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        Xb, y, test_size=0.2, random_state=RANDOM_STATE, stratify=y
+    )
+    best_model.fit(X_train, y_train)
+    y_pred = best_model.predict(X_test)
+    test_acc = accuracy_score(y_test, y_pred)
+    print(f"\nBest model: {best_name} on '{best_data}' data")
+    print(f"Held-out test accuracy: {test_acc:.4f}")
+    print(classification_report(y_test, y_pred))
+
 
 
 if __name__ == "__main__":
