@@ -216,6 +216,26 @@ def main():
     plt.ylabel("True class")
     savefig("confusion_matrix.png")
 
+    # ---- Feature importance ---------------------------------------------
+    if hasattr(best_model, "feature_importances_") and best_data == "original":
+        importance = pd.Series(best_model.feature_importances_, index=X.columns)
+        importance = importance.sort_values(ascending=False)
+    else:
+        # fall back to a freshly-trained tuned Decision Tree on original features
+        # so the importance ranking stays interpretable in clinical terms
+        dt = DecisionTreeClassifier(max_depth=8, min_samples_split=5, random_state=RANDOM_STATE)
+        dt.fit(X, y)
+        importance = pd.Series(dt.feature_importances_, index=X.columns).sort_values(ascending=False)
+
+    top10 = importance.head(10)
+    plt.figure(figsize=(8, 5))
+    plt.barh(top10.index[::-1], top10.values[::-1], color="#3498db", alpha=0.85)
+    plt.xlabel("Feature importance")
+    plt.title("Top 10 features — Decision Tree")
+    for i, v in enumerate(top10.values[::-1]):
+        plt.text(v + 0.003, i, f"{v:.3f}", va="center", fontsize=9)
+    savefig("feature_importance.png")
+
 
 
 if __name__ == "__main__":
