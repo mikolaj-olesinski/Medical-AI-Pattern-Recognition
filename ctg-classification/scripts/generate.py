@@ -236,6 +236,11 @@ def main():
         plt.text(v + 0.003, i, f"{v:.3f}", va="center", fontsize=9)
     savefig("feature_importance.png")
 
+    print("\nTop 5 features (clinical meaning):")
+    for feat, val in importance.head(5).items():
+        print(f"  {feat:8} {val:.3f}  {MEDICAL_MEANING.get(feat, '')}")
+    print(f"Top 5 features account for {importance.head(5).sum()*100:.1f}% of total importance")
+
 
 
 if __name__ == "__main__":
