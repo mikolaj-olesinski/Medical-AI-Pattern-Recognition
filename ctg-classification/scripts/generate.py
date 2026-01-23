@@ -241,6 +241,15 @@ def main():
         print(f"  {feat:8} {val:.3f}  {MEDICAL_MEANING.get(feat, '')}")
     print(f"Top 5 features account for {importance.head(5).sum()*100:.1f}% of total importance")
 
+    # ---- Learning curve ----------------------------------------------
+    dt_tuned = DecisionTreeClassifier(max_depth=8, min_samples_split=5, random_state=RANDOM_STATE)
+    train_sizes, train_scores, val_scores = learning_curve(
+        dt_tuned, X, y, cv=5, train_sizes=np.linspace(0.1, 1.0, 10),
+        random_state=RANDOM_STATE, scoring="accuracy",
+    )
+    train_mean, train_std = train_scores.mean(axis=1), train_scores.std(axis=1)
+    val_mean, val_std = val_scores.mean(axis=1), val_scores.std(axis=1)
+
 
 
 if __name__ == "__main__":
