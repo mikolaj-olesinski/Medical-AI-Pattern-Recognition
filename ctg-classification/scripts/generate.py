@@ -250,6 +250,21 @@ def main():
     train_mean, train_std = train_scores.mean(axis=1), train_scores.std(axis=1)
     val_mean, val_std = val_scores.mean(axis=1), val_scores.std(axis=1)
 
+    plt.figure(figsize=(7, 4.5))
+    plt.plot(train_sizes, train_mean, "o-", color="tab:blue", label="training set")
+    plt.fill_between(train_sizes, train_mean - train_std, train_mean + train_std, alpha=0.15, color="tab:blue")
+    plt.plot(train_sizes, val_mean, "o-", color="tab:red", label="validation")
+    plt.fill_between(train_sizes, val_mean - val_std, val_mean + val_std, alpha=0.15, color="tab:red")
+    plt.xlabel("training set size")
+    plt.ylabel("accuracy")
+    plt.title("Learning curve — Decision Tree (tuned)")
+    plt.legend()
+    plt.grid(alpha=0.3)
+    gap = train_mean[-1] - val_mean[-1]
+    print(f"\nLearning curve gap (train - val) at full size: {gap:.4f}")
+    savefig("learning_curve.png")
+
+    print("\nDone.")
 
 
 if __name__ == "__main__":
