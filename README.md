@@ -8,3 +8,5 @@ Classic supervised classification pipeline on cardiotocography (CTG)
 signals: EDA, preprocessing comparison, model selection across five
 algorithms, feature importance mapped back to clinical meaning, and a
 learning-curve check on generalization.
+
+**Result:** still training and evaluating models.
