@@ -9,4 +9,6 @@ signals: EDA, preprocessing comparison, model selection across five
 algorithms, feature importance mapped back to clinical meaning, and a
 learning-curve check on generalization.
 
-**Result:** still training and evaluating models.
+**Result:** Random Forest, 89.2% held-out accuracy. Top features
+(accelerations, decelerations, variability) match standard obstetric
+signals used by clinicians today.
