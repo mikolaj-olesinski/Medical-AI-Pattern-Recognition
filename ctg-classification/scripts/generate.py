@@ -1,5 +1,9 @@
 """
-Regenerates figures for the CTG case study.
+Regenerates all figures and prints the summary numbers used in the README
+for the CTG fetal heart-rate pattern classification case study.
+
+Run from the ctg-classification/ directory:
+    python scripts/generate.py
 """
 import warnings
 
