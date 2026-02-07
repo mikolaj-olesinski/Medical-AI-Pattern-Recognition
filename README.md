@@ -12,3 +12,5 @@ learning-curve check on generalization.
 **Result:** Random Forest, 89.2% held-out accuracy. Top features
 (accelerations, decelerations, variability) match standard obstetric
 signals used by clinicians today.
+
+## [`hospital-readmission-fairness/`](hospital-readmission-fairness) — Diabetic Readmission: Explainability & Fairness
