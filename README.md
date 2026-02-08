@@ -19,3 +19,5 @@ Ensemble classification (Random Forest / LightGBM / XGBoost) on 100k+
 hospital encounters, extended with **SHAP** explainability and a **fairness
 audit** (equal opportunity by race/gender/age, plus a counterfactual check
 for direct use of the race feature).
+
+**Result:** still evaluating.
