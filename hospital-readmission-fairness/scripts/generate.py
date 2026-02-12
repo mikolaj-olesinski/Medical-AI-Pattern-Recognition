@@ -67,6 +67,18 @@ def main():
     plt.suptitle("Hospital readmissions — demographics")
     savefig("demographics_overview.png")
 
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    for ax, col in zip(axes, ["race", "gender"]):
+        rate = df.groupby(col)["target"].mean().sort_values(ascending=False)
+        ax.bar(rate.index, rate.values, color=plt.cm.Set2(np.linspace(0, 1, len(rate))), alpha=0.85)
+        for i, v in enumerate(rate.values):
+            ax.text(i, v + 0.002, f"{v:.3f}", ha="center", fontsize=9)
+        ax.set_title(f"Readmission rate by {col}")
+        ax.set_xticklabels(rate.index, rotation=30, ha="right")
+        ax.set_ylim(0, rate.max() * 1.3)
+    plt.suptitle("Raw readmission rate by demographic group (before modeling)")
+    savefig("readmission_rate_by_group.png")
+
 
 
 if __name__ == "__main__":
