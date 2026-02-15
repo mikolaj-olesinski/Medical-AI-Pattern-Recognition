@@ -79,6 +79,25 @@ def main():
     plt.suptitle("Raw readmission rate by demographic group (before modeling)")
     savefig("readmission_rate_by_group.png")
 
+    # ---- Preprocessing --------------------------------------------------
+    sensitive_cols = ["race", "gender", "age"]
+    drop_cols = ["readmitted", "target", "encounter_id", "patient_nbr",
+                 "weight", "payer_code", "medical_specialty"]
+
+    df_prep = df.replace("?", np.nan)
+    sensitive = df_prep[sensitive_cols].copy()
+    feat_cols = [c for c in df_prep.columns if c not in drop_cols]
+    X = df_prep[feat_cols].copy()
+    y = df["target"].values
+
+    cat_cols = X.select_dtypes(include="object").columns.tolist()
+    encoders = {}
+    for col in cat_cols:
+        le = LabelEncoder()
+        X[col] = le.fit_transform(X[col].astype(str))
+        encoders[col] = le
+    X = X.values.astype(float)
+
 
 
 if __name__ == "__main__":
