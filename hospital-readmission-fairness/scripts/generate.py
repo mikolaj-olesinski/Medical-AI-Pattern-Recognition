@@ -108,6 +108,24 @@ def main():
     print(f"Train: {X_train.shape}, test: {X_test.shape}, "
           f"features dropped for missingness/leakage: {drop_cols}")
 
+    # ---- Models (fixed, literature-typical hyperparameters — no exhaustive sweep) ----
+    pos_weight = (y_train == 0).sum() / (y_train == 1).sum()
+
+    models = {
+        "Random Forest": RandomForestClassifier(
+            n_estimators=300, max_depth=12, class_weight="balanced",
+            n_jobs=-1, random_state=RANDOM_STATE,
+        ),
+        "LightGBM": lgb.LGBMClassifier(
+            num_leaves=63, learning_rate=0.05, min_child_samples=50,
+            scale_pos_weight=pos_weight, verbose=-1, random_state=RANDOM_STATE,
+        ),
+        "XGBoost": xgb.XGBClassifier(
+            max_depth=6, learning_rate=0.1, subsample=0.8,
+            scale_pos_weight=pos_weight, verbosity=0, eval_metric="logloss",
+            random_state=RANDOM_STATE,
+        ),
+    }
 
 
 if __name__ == "__main__":
