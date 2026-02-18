@@ -98,6 +98,16 @@ def main():
         encoders[col] = le
     X = X.values.astype(float)
 
+    X_train, X_test, y_train, y_test, idx_train, idx_test = train_test_split(
+        X, y, np.arange(len(y)), test_size=0.2, random_state=RANDOM_STATE, stratify=y
+    )
+    imputer = SimpleImputer(strategy="median")
+    X_train = imputer.fit_transform(X_train)
+    X_test = imputer.transform(X_test)
+    sens_test = sensitive.iloc[idx_test].reset_index(drop=True)
+    print(f"Train: {X_train.shape}, test: {X_test.shape}, "
+          f"features dropped for missingness/leakage: {drop_cols}")
+
 
 
 if __name__ == "__main__":
