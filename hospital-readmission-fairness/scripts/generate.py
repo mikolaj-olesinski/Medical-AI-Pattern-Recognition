@@ -126,6 +126,9 @@ def main():
             random_state=RANDOM_STATE,
         ),
     }
+    for m in models.values():
+        m.fit(X_train, y_train)
+
 
 
 if __name__ == "__main__":
