@@ -129,6 +129,21 @@ def main():
     for m in models.values():
         m.fit(X_train, y_train)
 
+    # ---- Performance ------------------------------------------------
+    rows = []
+    for name, model in models.items():
+        yp = model.predict(X_test)
+        rows.append({
+            "model": name,
+            "recall": recall_score(y_test, yp),
+            "precision": precision_score(y_test, yp),
+            "f1": f1_score(y_test, yp),
+            "balanced_accuracy": balanced_accuracy_score(y_test, yp),
+        })
+    perf = pd.DataFrame(rows).set_index("model")
+    print("\nTest performance:")
+    print(perf.round(4).to_string())
+
 
 
 if __name__ == "__main__":
