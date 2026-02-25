@@ -154,6 +154,22 @@ def main():
     plt.suptitle("Confusion matrices — test set")
     savefig("confusion_matrices.png")
 
+    fig, ax = plt.subplots(figsize=(9, 4.5))
+    x = np.arange(len(perf))
+    width = 0.2
+    colors = ["#e74c3c", "#3498db", "#2ecc71", "#f39c12"]
+    for i, (metric, color) in enumerate(zip(perf.columns, colors)):
+        bars = ax.bar(x + (i - 1.5) * width, perf[metric], width, label=metric, color=color, alpha=0.85)
+        for bar in bars:
+            ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.01,
+                    f"{bar.get_height():.2f}", ha="center", fontsize=7)
+    ax.set_xticks(x)
+    ax.set_xticklabels(perf.index)
+    ax.set_ylim(0, 1.1)
+    ax.set_title("Model performance — early readmission prediction")
+    ax.legend()
+    savefig("performance_comparison.png")
+
 
 
 if __name__ == "__main__":
