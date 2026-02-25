@@ -170,6 +170,20 @@ def main():
     ax.legend()
     savefig("performance_comparison.png")
 
+    # ---- SHAP -------------------------------------------------------
+    best_name = perf["f1"].idxmax()
+    best_model = models[best_name]
+    print(f"\nBest model by F1: {best_name}")
+
+    explainer = shap.TreeExplainer(best_model)
+    rng = np.random.default_rng(RANDOM_STATE)
+    sample_idx = rng.choice(X_test.shape[0], min(2000, X_test.shape[0]), replace=False)
+    X_shap = X_test[sample_idx]
+    sv = explainer.shap_values(X_shap)
+    if isinstance(sv, list):
+        sv = sv[1]
+    shap_exp = shap.Explanation(values=sv, data=X_shap, feature_names=feat_cols)
+
 
 
 if __name__ == "__main__":
