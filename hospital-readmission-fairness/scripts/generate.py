@@ -144,6 +144,16 @@ def main():
     print("\nTest performance:")
     print(perf.round(4).to_string())
 
+    fig, axes = plt.subplots(1, 3, figsize=(14, 4.2))
+    for ax, (name, model) in zip(axes, models.items()):
+        yp = model.predict(X_test)
+        cm = confusion_matrix(y_test, yp)
+        ConfusionMatrixDisplay(cm, display_labels=["no <30", "<30"]).plot(
+            ax=ax, colorbar=False, cmap="Blues")
+        ax.set_title(f"{name}\nrecall={recall_score(y_test, yp):.3f}", fontsize=10)
+    plt.suptitle("Confusion matrices — test set")
+    savefig("confusion_matrices.png")
+
 
 
 if __name__ == "__main__":
