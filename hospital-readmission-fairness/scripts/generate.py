@@ -184,6 +184,11 @@ def main():
         sv = sv[1]
     shap_exp = shap.Explanation(values=sv, data=X_shap, feature_names=feat_cols)
 
+    plt.figure(figsize=(9, 7))
+    shap.plots.beeswarm(shap_exp, max_display=15, show=False)
+    plt.title(f"SHAP beeswarm — {best_name}")
+    savefig("shap_beeswarm.png")
+
 
 
 if __name__ == "__main__":
