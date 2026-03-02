@@ -189,6 +189,16 @@ def main():
     plt.title(f"SHAP beeswarm — {best_name}")
     savefig("shap_beeswarm.png")
 
+    plt.figure(figsize=(8, 5))
+    shap.plots.bar(shap_exp, max_display=12, show=False)
+    plt.title(f"SHAP mean |value| — top features ({best_name})")
+    savefig("shap_feature_importance.png")
+
+    mean_abs = np.abs(sv).mean(axis=0)
+    top_feats = pd.Series(mean_abs, index=feat_cols).sort_values(ascending=False).head(5)
+    print("Top 5 SHAP features:")
+    print(top_feats.round(4).to_string())
+
 
 
 if __name__ == "__main__":
