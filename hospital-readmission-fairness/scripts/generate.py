@@ -199,6 +199,17 @@ def main():
     print("Top 5 SHAP features:")
     print(top_feats.round(4).to_string())
 
+    # ---- Fairness: equal opportunity ---------------------------------
+    def recall_per_group(model, group_col, values):
+        yp = model.predict(X_test)
+        out = {}
+        for g in values:
+            mask = sens_test[group_col].values == g
+            if mask.sum() == 0 or y_test[mask].sum() == 0:
+                continue
+            out[g] = recall_score(y_test[mask], yp[mask])
+        return out
+
 
 
 if __name__ == "__main__":
