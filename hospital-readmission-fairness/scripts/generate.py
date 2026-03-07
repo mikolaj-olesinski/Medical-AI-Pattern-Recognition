@@ -210,6 +210,26 @@ def main():
             out[g] = recall_score(y_test[mask], yp[mask])
         return out
 
+    fig, axes = plt.subplots(1, 2, figsize=(13, 4.5))
+    fairness_summary = {}
+    for ax, col in zip(axes, ["race", "gender"]):
+        values = sorted(sens_test[col].dropna().unique())
+        all_recalls = {name: recall_per_group(m, col, values) for name, m in models.items()}
+        fairness_summary[col] = all_recalls
+        width = 0.25
+        x = np.arange(len(values))
+        for i, (name, recalls) in enumerate(all_recalls.items()):
+            vals = [recalls.get(g, 0) for g in values]
+            ax.bar(x + (i - 1) * width, vals, width, label=name, alpha=0.85)
+        ax.set_xticks(x)
+        ax.set_xticklabels(values, rotation=30, ha="right")
+        ax.set_ylim(0, 1.0)
+        ax.set_ylabel("Recall (true positive rate)")
+        ax.set_title(f"Equal opportunity — recall by {col}")
+        ax.legend(fontsize=8)
+    plt.suptitle("Fairness check: does recall differ across protected groups?")
+    savefig("fairness_equal_opportunity.png")
+
 
 
 if __name__ == "__main__":
