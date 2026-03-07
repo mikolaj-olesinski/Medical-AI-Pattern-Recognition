@@ -230,6 +230,11 @@ def main():
     plt.suptitle("Fairness check: does recall differ across protected groups?")
     savefig("fairness_equal_opportunity.png")
 
+    for col, recalls in fairness_summary.items():
+        print(f"\nRecall by {col}:")
+        for name, r in recalls.items():
+            print(f"  {name}: " + ", ".join(f"{g}={v:.3f}" for g, v in r.items()))
+
 
 
 if __name__ == "__main__":
