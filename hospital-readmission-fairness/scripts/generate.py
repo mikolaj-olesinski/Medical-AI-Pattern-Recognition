@@ -235,6 +235,23 @@ def main():
         for name, r in recalls.items():
             print(f"  {name}: " + ", ".join(f"{g}={v:.3f}" for g, v in r.items()))
 
+    # ---- Counterfactual: does the model use race directly? --------------
+    best_idx = feat_cols.index("race") if "race" in feat_cols else None
+    if best_idx is not None:
+        le_race = encoders["race"]
+        caucasian_code = le_race.transform(["Caucasian"])[0]
+        X_test_cf = X_test.copy()
+        X_test_cf[:, best_idx] = caucasian_code
+
+        print("\nCounterfactual: setting race=Caucasian for every test row")
+        rows = []
+        for name, model in models.items():
+            yp_orig = model.predict(X_test)
+            yp_cf = model.predict(X_test_cf)
+            changed = (yp_orig != yp_cf).mean() * 100
+            rows.append({"model": name, "predictions_changed_%": changed})
+            print(f"  {name}: {changed:.2f}% of predictions changed")
+
 
 
 if __name__ == "__main__":
