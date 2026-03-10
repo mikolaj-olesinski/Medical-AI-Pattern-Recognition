@@ -252,6 +252,23 @@ def main():
             rows.append({"model": name, "predictions_changed_%": changed})
             print(f"  {name}: {changed:.2f}% of predictions changed")
 
+        best_yp = best_model.predict(X_test)
+        best_yp_cf = best_model.predict(X_test_cf)
+        groups = sorted(sens_test["race"].dropna().unique())
+        fig, axes = plt.subplots(1, 2, figsize=(11, 4.5))
+        for ax, (yp, label) in zip(axes, [(best_yp, "original race"), (best_yp_cf, "all set to Caucasian")]):
+            recalls = []
+            for g in groups:
+                mask = sens_test["race"].values == g
+                recalls.append(recall_score(y_test[mask], yp[mask]) if mask.sum() and y_test[mask].sum() else 0)
+            ax.bar(groups, recalls, color="#3498db", alpha=0.85)
+            ax.set_title(f"{best_name} — {label}")
+            ax.set_ylabel("Recall")
+            ax.set_ylim(0, 1.0)
+            ax.set_xticklabels(groups, rotation=30, ha="right")
+        plt.suptitle("Counterfactual fairness check (race feature)")
+        savefig("counterfactual_race.png")
+
 
 
 if __name__ == "__main__":
