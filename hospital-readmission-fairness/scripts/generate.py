@@ -269,6 +269,7 @@ def main():
         plt.suptitle("Counterfactual fairness check (race feature)")
         savefig("counterfactual_race.png")
 
+    print("\nDone.")
 
 
 if __name__ == "__main__":
