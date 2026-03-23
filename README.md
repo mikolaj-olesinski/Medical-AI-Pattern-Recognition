@@ -20,4 +20,8 @@ hospital encounters, extended with **SHAP** explainability and a **fairness
 audit** (equal opportunity by race/gender/age, plus a counterfactual check
 for direct use of the race feature).
 
-**Result:** still evaluating.
+**Result:** LightGBM, F1 0.285. SHAP shows the model relies on clinically
+sensible features (prior hospitalizations, discharge disposition); a
+fairness audit finds a real recall gap by race that survives even though no
+model uses the race feature directly — a proxy-discrimination pattern worth
+flagging rather than a false alarm.
