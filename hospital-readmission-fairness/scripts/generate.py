@@ -1,5 +1,12 @@
 """
-Regenerates figures for the readmission fairness case study.
+Regenerates all figures and prints the summary numbers used in the README
+for the diabetic hospital readmission / fairness case study.
+
+Downloads the "Diabetes 130-US hospitals" dataset from the UCI repository
+(needs internet access on first run). Run from the
+hospital-readmission-fairness/ directory:
+
+    python scripts/generate.py
 """
 import warnings
 
