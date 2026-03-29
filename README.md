@@ -1,6 +1,9 @@
 # Medical AI — Pattern Recognition & Fairness
 
-Two case studies in clinical machine learning. Work in progress.
+Two case studies in clinical machine learning, chosen to show two different
+halves of what it takes to put a model like this in front of a clinician:
+getting a classifier to work well, and being able to say *why* it works and
+*for whom*.
 
 ## [`ctg-classification/`](ctg-classification) — Fetal Heart-Rate Pattern Classification
 
