@@ -28,3 +28,5 @@ sensible features (prior hospitalizations, discharge disposition); a
 fairness audit finds a real recall gap by race that survives even though no
 model uses the race feature directly — a proxy-discrimination pattern worth
 flagging rather than a false alarm.
+
+## Why these two together
