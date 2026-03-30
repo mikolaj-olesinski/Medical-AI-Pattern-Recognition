@@ -30,3 +30,8 @@ model uses the race feature directly — a proxy-discrimination pattern worth
 flagging rather than a false alarm.
 
 ## Why these two together
+
+A model that classifies well but can't be interrogated, or one that's
+accurate on average but silently underserves a subgroup, isn't something you
+can safely ship into a clinical workflow. Each project on its own shows one
+half of that; together they're meant to show both.
