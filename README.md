@@ -33,6 +33,8 @@ fairness audit finds a real recall gap by race that survives even though no
 model uses the race feature directly — a proxy-discrimination pattern worth
 flagging rather than a false alarm.
 
+<img src="hospital-readmission-fairness/figures/fairness_equal_opportunity.png" width="520">
+
 ## Why these two together
 
 A model that classifies well but can't be interrogated, or one that's
