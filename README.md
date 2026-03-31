@@ -35,3 +35,8 @@ A model that classifies well but can't be interrogated, or one that's
 accurate on average but silently underserves a subgroup, isn't something you
 can safely ship into a clinical workflow. Each project on its own shows one
 half of that; together they're meant to show both.
+
+Each folder is self-contained: a notebook with the full analysis (outputs
+already saved, so no need to re-run anything to read it), a short `README.md`
+report with the key figures, and a `scripts/generate.py` to regenerate
+everything from scratch.
