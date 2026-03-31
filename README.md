@@ -5,6 +5,8 @@ halves of what it takes to put a model like this in front of a clinician:
 getting a classifier to work well, and being able to say *why* it works and
 *for whom*.
 
+![Portfolio summary](figures/summary_banner.png)
+
 ## [`ctg-classification/`](ctg-classification) — Fetal Heart-Rate Pattern Classification
 
 Classic supervised classification pipeline on cardiotocography (CTG)
