@@ -18,6 +18,8 @@ learning-curve check on generalization.
 (accelerations, decelerations, variability) match standard obstetric
 signals used by clinicians today.
 
+<img src="ctg-classification/figures/model_comparison.png" width="520">
+
 ## [`hospital-readmission-fairness/`](hospital-readmission-fairness) — Diabetic Readmission: Explainability & Fairness
 
 Ensemble classification (Random Forest / LightGBM / XGBoost) on 100k+
